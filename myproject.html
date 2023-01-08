@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        header{
+            width: 100vw;
+            height: 11vh;
+            background-color: rgb(210, 83, 235);
+            color: white;
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+
+        nav ul li{
+            display: inline-block;
+            margin: 13px;
+            padding: 5px;
+            font-size: 3vh;
+        }
+
+
+        .container ul ul{
+            display: none;
+        }
+
+        .container ul li{
+            width: 100px;
+            height: 20px;
+            /* background-color: blueviolet; */
+            line-height: 20px;
+            float: left;
+         
+        }
+
+        .container ul li:hover{
+            color: blue;
+        }
+
+        .container ul li:hover >ul{
+            display: inline-block;
+            position: relative;
+            top: 5.7px;
+            right: 4.8px;
+            
+        }
+
+        .container ul ul li:hover >ul{
+            display: inline-block;
+            position: relative;
+            left: 105px;
+            top: -30px;
+        }
+
+        .phy{
+            margin: 0px;
+            font-size: 2.8vh;
+            border: 2px solid red;
+            background-color: aqua;
+
+
+        }
+
+        .box{
+            font-size: 3vh;
+            margin: 7px;
+            padding: 5px;
+        }
+
+        body{
+            /* background-color: rgba(2, 22, 179, 0.836); */
+        }
+
+       
+
+        .bg-black{
+            background-color: red;
+            margin: 2px;
+        }
+        .heroic{
+            background-color: blueviolet;
+        }
+        .meron{
+            background-color: blue;
+            margin: 2px;
+        }
+        .bg-primary{
+            background-color: blueviolet;
+            margin: 1px;
+        }
+
+        footer{
+            width: 100vw;
+            height: 5vh;
+            background-color: rgb(207, 47, 222);
+            text-align: center;
+            color: white;
+        }
+
+        .clockbox{
+            width: 600px;
+            height: 170px;
+            background-color: aquamarine;
+            margin: auto;
+            border: 2px solid white;
+            border-radius: 5px ;
+
+        }
+        p{
+            text-align: center;
+            font-size: 3vh;
+            font-weight: 800;
+            font-variant: inherit;
+            font-style: oblique;
+        }
+
+        .container1{
+            text-align: center;
+            font-size: 20px;
+        }
+
+        h2{
+            text-align: center;
+        }
+        
+        .pt{
+            width: 30px;
+        }
+
+        
+    </style>
+</head>
+<body>
+ <header>
+    <div class="box">
+        <p> <b>The clock</b> <br> <b>Time Table</b></p>
+    </div>
+    <nav>
+        <div class="container">
+
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Time Zone</li>
+                <li>Contact</li>
+                <li>Register</li>
+            </ul>
+        </div>
+    </nav>
+ </header>
+ <main>
+    
+    <div class="clockbox">
+
+        <p>The clock Time</p><br><br><br>
+        
+    
+        
+    
+        <div class="container1" id="timer">
+            Current Time is : <span id="time1"></span>
+        </div> 
+
+    </div>
+    <br><br><br>
+
+
+    <h2> To Do List</h2><br><br>
+    <div class="container1" style="margin: auto;  width:400px;" my-6>
+    
+    
+        <div class="form-group">
+          <label for="title">Title</label><br>
+          <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter Name" ><br>
+         
+        </div><br>
+        <label for="description">Description</label><br>
+        <textarea name="textarea" id="description" cols="40" rows="3"></textarea><br>
+        
+        <button type="submit" class="btn btn-primary" id="add">Add to List</button>
+        <button  class="btn btn-primary"  onclick="clearstorage()">Clear List</button>
+    
+      
+
+      
+      <table>
+        <thead>
+            <tr class="pt">
+                <th>SNo.</th>
+                <th>items</th>
+                <th>description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr>
+                <td>1</td>
+                <td>coffee</td>
+                <td>drink coffee</td>
+                <td><button >Delete</button></td>
+            </tr>
+
+          
+        </tbody>
+      </table>
+    </div>
+<br><br><br><br><br>
+
+ </main>
+  
+
+ <footer>
+    &copy all the copyright are reversed by The clock time table
+ </footer>
+
+ <script>
+    let date;
+let time;
+const options = { weekday:'long' , year: 'numeric' , month: 'long' , day: "numeric"};
+setInterval(() => {
+
+myDate = new Date();
+
+
+ 
+time = myDate.toLocaleTimeString();
+
+date = myDate.toLocaleDateString(undefined , options);
+
+document.getElementById("time1").innerHTML = time + "<br>" +  date ;
+
+}, 1000);
+
+
+
+// to do list
+
+function update(){
+
+console.log("updating list...");
+
+tit = document.getElementById("title").value;
+des = document.getElementById("description").value;
+if(localStorage.getItem('itemsJson')==null){
+    itemsJsonArray = [];
+    itemsJsonArray.push([tit , des]);
+    localStorage.setItem('itemsJson' , JSON.stringify(itemsJsonArray));
+}
+else{
+    itemsJsonArrayStr = localStorage.getItem('itemsJson');
+    itemsJsonArray = JSON.parse(itemsJsonArrayStr);
+    itemsJsonArray.push([tit , des]);
+    localStorage.setItem('itemsJson',JSON.stringify(itemsJsonArray));
+}
+
+// populate the table
+
+let tableBody = document.getElementById("tableBody");
+let str = "";
+itemsJsonArray.forEach((element,index) => {
+    
+str+= `
+    
+    <tr>
+        <td>${index + 1}</td>
+        <td>${element[0]}</td>
+        <td>${element[1]}</td>
+        <td><button >Delete<button></td>
+    </tr>
+    
+    
+    `
+});
+
+tableBody.innerHTML = str;
+
+}
+add = document.getElementById("add");
+add.addEventListener("click" , update);
+update();
+
+function clearstorage(){
+if(confirm( "Do you want to clear?")){
+console.log("clear the list");
+localStorage.clear();
+update();
+}
+}
+
+ </script>
+</body>
+</html>
